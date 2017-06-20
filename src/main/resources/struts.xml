@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+ 
+<struts>
+	<constant name="struts.enable.SlashesInActionNames" value="true"/>
+	<constant name="struts.mapper.alwaysSelectFullNamespace" value="false"/>
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+	<constant name="struts.devMode" value="false" />
+    <constant name="struts.action.extension" value=","/>
+	<constant name="struts.custom.i18n.resources" value="messages" />
+	<constant name="struts.objectFactory" value="org.apache.struts2.spring.StrutsSpringObjectFactory" />
+	<constant name="struts.convention.result.path" value="/pages"></constant>
+	<constant name="struts.multipart.maxSize" value="9999999999999999" />	
+    <constant name="struts.convention.action.packages" value="com.jgeppert.struts2.jquery.grid.showcase.action"/>
+    <constant name="struts.convention.default.parent.package" value="showcase"/>
+    
+	<package name="showcase" extends="struts-default,json-default" namespace="/">
+    	<!-- result types begins -->
+        <result-types>
+			<result-type name="tiles" class="org.apache.struts2.views.tiles.TilesResult" />
+		</result-types>	
+		
+		<!-- global error page of the application begins -->
+		<global-results>
+			<result name="applicationError" type="tiles">tiles.errorPage</result>
+			<result name="error" type="tiles">tiles.errorPage</result>
+		</global-results>
+		
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception" result="applicationError" />
+		</global-exception-mappings>
+		<!-- global error page of the application ends -->
+        
+        
+    </package>
+    
+	<package name="default" extends="struts-default,json-default" namespace="/">
+ 
+ 		<result-types>
+			<result-type name="tiles" class="org.apache.struts2.views.tiles.TilesResult" />
+		</result-types>
+		<!-- interceptors type begins -->
+		<interceptors>
+			<interceptor name="session"
+				class="com.supportdesk.interceptors.SessionInterceptor" />
+			<interceptor-stack name="loginStack">
+				<interceptor-ref name="session"/>
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+		</interceptors>
+		
+		<!-- <default-action-ref name="Home" /> -->
+		<default-interceptor-ref name="loginStack"></default-interceptor-ref>
+		<!-- global error page of the application begins -->
+		<global-results>
+			<result name="error" type="tiles">tiles.errorPage</result>
+			<result name="applicationError" type="tiles">tiles.errorPage</result>
+			<result name="login" type="redirect">Home</result>
+		</global-results>
+		
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception" result="applicationError" />
+		</global-exception-mappings>
+		<!-- global error page of the application ends -->
+		
+		<action name="Home" method="login" class="com.supportdesk.action.IndexAction">
+			<result  name="login">/pages/login.jsp</result>
+        	<result  name="dashboard" type="redirect">DashBoard</result>
+        </action>
+        
+        <action name="SignUp" method="signUp" class="com.supportdesk.action.LoginAction">
+			<result  name="login">/pages/login.jsp</result>
+        	<result  name="dashboard" type="redirect">DashBoard</result>
+        </action>
+        
+        <!-- logout action -->
+        <action name="logOut" class="com.supportdesk.action.LoginAction" method="logOut">
+                <result>/pages/login.jsp</result>
+        </action>
+        
+        <action name="Login" method="authenticate" class="com.supportdesk.action.LoginAction">
+        	<interceptor-ref name="defaultStack"/>
+        	<result  name="success" type="redirect">DashBoard</result>
+        	<result name="error">/pages/login.jsp</result>
+        </action>
+        
+        <!--ChangePassword action mapping -->
+        <action name="changePassword" method="changePassword" class="com.supportdesk.action.IndexAction">
+        	<result  name="success" type="tiles">tiles.changepassword</result>
+        </action>
+        
+        <action name="updatePassword" method="updatePassword" class="com.supportdesk.action.IndexAction">
+        	<result  name="success" type="tiles">tiles.changepassword</result>
+        </action>
+        
+        <action name="forgotPassword" method="forgotPassword" class="com.supportdesk.action.IndexAction"></action>
+        
+        <action name="AddUser" method="addUser" class="com.supportdesk.action.LoginAction">
+        	<result  name="success" type="tiles">tiles.home</result>
+        	<result  name="login">/pages/login.jsp</result>
+        </action>
+        
+        <action name="DashBoard" method="execute" class="com.supportdesk.action.DashBoardAction">
+        	<result  name="success" type="tiles">tiles.home</result>
+        </action>
+        
+        <action name="IncidentFileUpload" method="incidentFileUpload" class="com.supportdesk.action.IncidentAction">
+        	<result  name="success" type="tiles">tiles.incident</result>
+        </action>
+        
+        <action name="IncidentSLMFileUpload" method="incidentSLMFileUpload" class="com.supportdesk.action.IncidentAction">
+        	<result  name="success" type="tiles">tiles.incident</result>
+        </action>
+        
+        <action name="Incident" method="execute" class="com.supportdesk.action.IncidentAction">
+        	<result  name="success" type="tiles">tiles.incident</result>
+        </action>        
+        
+        <action name="WorkOrderFileUpload" method="workOrderFileUpload" class="com.supportdesk.action.WorkOrderAction">
+        	<result  name="success" type="tiles">tiles.workOrder</result>
+        </action>  
+        
+        <action name="ChangeRequestFileUpload" method="changeRequestFileUpload" class="com.supportdesk.action.ChangeRequestAction">
+        	<result  name="success" type="tiles">tiles.changeRequest</result>
+        </action>        
+        
+        <action name="WorkOrder" method="execute" class="com.supportdesk.action.WorkOrderAction">
+        	<result  name="success" type="tiles">tiles.workOrder</result>
+        </action>
+        
+        <action name="Task" method="execute" class="com.supportdesk.action.TaskAction">
+        	<result  name="success" type="tiles">tiles.task</result>
+        </action>
+        
+        <action name="KnowledgeBase" method="execute" class="com.supportdesk.action.KnowledgeBaseAction">
+        	<result  name="success" type="tiles">tiles.kbase</result>
+        </action>
+        
+        <action name="ChangeRequest" method="execute" class="com.supportdesk.action.ChangeRequestAction">
+        	<result  name="success" type="tiles">tiles.changeRequest</result>
+        </action>
+        
+        <action name="MeetUp" method="execute" class="com.supportdesk.action.MeetUpAction">
+        	<result  name="success" type="tiles">tiles.meetup</result>
+        </action>
+        
+        <action name="Admin" method="execute" class="com.supportdesk.action.AdminAction">
+        	<result  name="success" type="tiles">tiles.admin</result>
+        </action>
+        
+        <action name="incidentResult" method="incidentResult" class="com.supportdesk.action.IncidentAction">
+        	<result type="json">
+        	<param name="ignoreHierarchy">false</param>
+        	<param name="excludeProperties">incidentService</param> 
+        	</result>
+        </action>
+        
+        <action name="incidentUpdate" method="incidentUpdate" class="com.supportdesk.action.IncidentUpdateAction">
+        	<result type="json">
+        	<param name="ignoreHierarchy">false</param>
+        	<param name="excludeProperties">incidentService</param> 
+        	</result>
+        </action>
+        
+        <action name="updateIncidentComment" method="updateIncidentComment" class="com.supportdesk.action.IncidentUpdateAction">
+        	<result type="json">
+        	<param name="ignoreHierarchy">false</param>
+        	<param name="excludeProperties">incidentService</param> 
+        	</result>
+        </action>
+        
+        <action name="loadComment" method="loadComment" class="com.supportdesk.action.CommentAction">
+        	<result  name="success">/pages/comment.jsp</result>
+        </action>
+        
+         <action name="saveComment" method="saveComment" class="com.supportdesk.action.CommentAction">
+        	<result  name="success">/pages/comment.jsp</result>
+        </action>
+        
+        <action name="updateWorkOrderComment" method="updateWorkOrderComment" class="com.supportdesk.action.WorkOrderUpdateAction">
+        	<result type="json">
+        	<param name="ignoreHierarchy">false</param>
+        	<param name="excludeProperties">workOrderService</param> 
+        	</result>
+        </action>
+        
+        <action name="workOrderResult" method="workOrderResult" class="com.supportdesk.action.WorkOrderAction">
+        	<result type="json">
+        	<param name="ignoreHierarchy">false</param>
+        	<param name="excludeProperties">workOrderService</param> 
+        	</result>
+        </action>
+        
+        <action name="updateChangeRequestComment" method="updateChangeRequestComment" class="com.supportdesk.action.ChangeRequestUpdateAction">
+        	<result type="json">
+        	<param name="ignoreHierarchy">false</param>
+        	<param name="excludeProperties">changeRequestService</param> 
+        	</result>
+        </action>
+        
+        <action name="changeRequestResult" method="changeRequestResult" class="com.supportdesk.action.ChangeRequestAction">
+        	<result type="json">
+        	<param name="ignoreHierarchy">false</param>
+        	<param name="excludeProperties">changeRequestService</param> 
+        	</result>
+        </action>
+        
+        <action name="incidentSummaryResult" method="incidentSummaryResult" class="com.supportdesk.action.IncidentSummaryAction">
+        	<result type="json">
+        	<param name="ignoreHierarchy">false</param>
+        	<param name="excludeProperties">IncidentSummaryService</param> 
+        	</result>
+        </action>
+        
+        <action name="incidentSummaryResultByApp" method="incidentSummaryResultByApp" class="com.supportdesk.action.IncidentSummaryAction">
+        	<result type="json">
+        	<param name="ignoreHierarchy">false</param>
+        	<param name="excludeProperties">IncidentSummaryService</param> 
+        	</result>
+        </action>
+        
+        <action name="userIncidentCount" method="userIncidentCount" class="com.supportdesk.action.IncidentSummaryAction">
+        	<result type="json">
+        	<param name="ignoreHierarchy">false</param>
+        	<param name="excludeProperties">IncidentSummaryService</param> 
+        	</result>
+        </action>
+        
+        <action name="userIncidentCountByApp" method="userIncidentCountByApp" class="com.supportdesk.action.IncidentSummaryAction">
+        	<result type="json">
+        	<param name="ignoreHierarchy">false</param>
+        	<param name="excludeProperties">IncidentSummaryService</param> 
+        	</result>
+        </action>
+        
+        <action name="workOrderSummaryResult" method="workOrderSummaryResult" class="com.supportdesk.action.IncidentSummaryAction">
+        	<result type="json">
+        	<param name="ignoreHierarchy">false</param>
+        	<param name="excludeProperties">IncidentSummaryService</param> 
+        	</result>
+        </action>
+        
+        <action name="workOrderSummaryResultByApp" method="workOrderSummaryResultByApp" class="com.supportdesk.action.IncidentSummaryAction">
+        	<result type="json">
+        	<param name="ignoreHierarchy">false</param>
+        	<param name="excludeProperties">IncidentSummaryService</param> 
+        	</result>
+        </action>
+        
+        <action name="changeRequestSummaryResult" method="changeRequestSummaryResult" class="com.supportdesk.action.IncidentSummaryAction">
+        	<result type="json">
+        	<param name="ignoreHierarchy">false</param>
+        	<param name="excludeProperties">IncidentSummaryService</param> 
+        	</result>
+        </action>
+        
+        <action name="changeRequestSummaryResultByApp" method="changeRequestSummaryResultByApp" class="com.supportdesk.action.IncidentSummaryAction">
+        	<result type="json">
+        	<param name="ignoreHierarchy">false</param>
+        	<param name="excludeProperties">IncidentSummaryService</param> 
+        	</result>
+        </action>
+        
+        <action name="updateTopic" method="updateTopic" class="com.supportdesk.action.TopicUpdateAction">
+        	<result type="json">
+        	<param name="ignoreHierarchy">false</param>
+        	<param name="excludeProperties">topicService</param> 
+        	</result>
+        </action>
+        
+        <action name="deleteTopic" method="deleteTopic" class="com.supportdesk.action.TopicUpdateAction">
+        	<result type="json">
+        	<param name="ignoreHierarchy">false</param>
+        	<param name="excludeProperties">topicService</param> 
+        	</result>
+        </action>
+        
+        <action name="loadTopic" method="loadTopic" class="com.supportdesk.action.TopicUpdateAction">
+        	<result type="json">
+        	<param name="ignoreHierarchy">false</param>
+        	<param name="excludeProperties">topicService</param> 
+        	</result>
+        </action>
+        
+        <action name="updateTask" method="updateTask" class="com.supportdesk.action.TaskUpdateAction">
+        	<result type="json">
+        	<param name="ignoreHierarchy">false</param>
+        	<param name="excludeProperties">taskService,commentService</param> 
+        	</result>
+        </action>
+        
+        <action name="deleteTask" method="deleteTask" class="com.supportdesk.action.TaskUpdateAction">
+        	<result type="json">
+        	<param name="ignoreHierarchy">false</param>
+        	<param name="excludeProperties">taskService,commentService</param> 
+        	</result>
+        </action>
+        
+        <action name="loadTask" method="loadTask" class="com.supportdesk.action.TaskUpdateAction">
+        	<result type="json">
+        	<param name="ignoreHierarchy">false</param>
+        	<param name="excludeProperties">taskService,commentService</param> 
+        	</result>
+        </action>
+		
+	</package>
+	<package name="Admin" extends="struts-default,json-default" namespace="/Admin">
+ 
+ 		<result-types>
+			<result-type name="tiles" class="org.apache.struts2.views.tiles.TilesResult" />
+		</result-types>
+		<!-- interceptors type begins -->
+		<interceptors>
+			<interceptor name="session"
+				class="com.supportdesk.interceptors.SessionInterceptor" />
+			<interceptor-stack name="loginStack">
+				<interceptor-ref name="session" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+			
+		</interceptors>
+		
+		<!-- <default-action-ref name="Home" /> -->
+		<default-interceptor-ref name="loginStack"></default-interceptor-ref>
+		<!-- global error page of the application begins -->
+		<global-results>
+			<result name="applicationError" type="tiles">tiles.errorPage</result>
+			<result name="login" type="redirect">/Home</result>
+			<result name="error" type="tiles">tiles.errorPage</result>
+		</global-results>
+		
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception" result="applicationError" />
+		</global-exception-mappings>
+		<!-- global error page of the application ends -->
+		
+		<!-- Manage Application Users of the application starts -->
+        <action name="ManageUser" method="execute" class="com.supportdesk.action.UserAction">
+        	<result name="success" type="tiles">tiles.user</result>
+        </action>
+        
+        <action name="updateUser" method="updateUser" class="com.supportdesk.action.UserUpdateAction">
+        	<result name="success" type="redirectAction">ManageUser</result>
+        </action>
+		        
+        <action name="userList" method="userList" class="com.supportdesk.action.UserAction">
+        	<result type="json">
+        	<param name="ignoreHierarchy">false</param>
+        	<param name="excludeProperties">userService</param> 
+        	</result>
+        </action>
+        
+         <action name="userListAll" method="userListAll" class="com.supportdesk.action.UserAction">
+      		<result name="success">/pages/userListDropDown.jsp</result>
+    	</action>
+        
+        <!-- Manage Supported Application of the application starts -->
+         <action name="ManageApp" method="execute" class="com.supportdesk.action.ManageAppAction">
+        	<result name="success" type="tiles">tiles.application</result>
+        </action>
+        
+        <action name="updateApp" method="update" class="com.supportdesk.action.ManageAppUpdateAction">
+        	<result name="success" type="redirectAction">ManageApp</result>
+        </action>
+		        
+        <action name="appList" method="appList" class="com.supportdesk.action.ManageAppAction">
+        	<result type="json">
+        	<param name="ignoreHierarchy">false</param>
+        	<param name="excludeProperties">manageAppService</param> 
+        	</result>
+        </action>
+        
+        <!-- Manage Application Queues of the application starts -->
+        <action name="ManageQueue" method="execute" class="com.supportdesk.action.QueueAction">
+        	<result name="success" type="tiles">tiles.queue</result>
+        </action>
+        
+        <action name="updateQueue" method="updateQueue" class="com.supportdesk.action.QueueUpdateAction">
+        	<result name="success" type="redirectAction">ManageQueue</result>
+        </action>
+		        
+        <action name="queueList" method="queueList" class="com.supportdesk.action.QueueAction">
+        	<result type="json">
+        	<param name="ignoreHierarchy">false</param>
+        	<param name="excludeProperties">queueService</param> 
+        	</result>
+        </action>
+        
+        <action name="queueListAll" method="queueListAll" class="com.supportdesk.action.QueueAction">
+      		<result name="success">/pages/queueListDropDown.jsp</result>
+    	</action>
+        
+        <!-- Manage Application Class Type of the application starts -->
+        <action name="ManageClassType" method="execute" class="com.supportdesk.action.ClassTypeAction">
+        	<result name="success" type="tiles">tiles.classType</result>
+        </action>
+        
+        <action name="updateClassType" method="update" class="com.supportdesk.action.ClassTypeUpdateAction">
+        	<result name="success" type="redirectAction">ManageClassType</result>
+        </action>
+		        
+        <action name="classTypeList" method="classTypeList" class="com.supportdesk.action.ClassTypeAction">
+        	<result type="json">
+        	<param name="ignoreHierarchy">false</param>
+        	<param name="excludeProperties">classTypeService</param> 
+        	</result>
+        </action>
+        
+        <action name="classTypeListAll" method="serviceLevelListAll" class="com.supportdesk.action.ClassTypeAction">
+      		<result name="success">/pages/serviceLevelListDropDown.jsp</result>
+    	</action>
+        
+        
+        <!-- Manage Application User Queue of the application starts -->
+        <action name="ManageUserQueue" method="execute" class="com.supportdesk.action.UserQueueAction">
+        	<result name="success" type="tiles">tiles.userQueue</result>
+        </action>
+        
+        <action name="updateUserQueue" method="update" class="com.supportdesk.action.UserQueueUpdateAction">
+        	<result name="success" type="redirectAction">ManageUserQueue</result>
+        </action>
+		        
+        <action name="userQueueList" method="userQueueList" class="com.supportdesk.action.UserQueueAction">
+        	<result type="json">
+        	<param name="ignoreHierarchy">false</param>
+        	<param name="excludeProperties">userQueueService</param> 
+        	</result>
+        </action>
+        
+        <!-- Manage SAL hours of the application starts -->
+        <action name="SLA" method="execute" class="com.supportdesk.action.SLAAction">
+        	<result name="success" type="tiles">tiles.sla</result>
+        </action>
+        
+        <action name="updateSla" method="update" class="com.supportdesk.action.SlaUpdateAction">
+        	<result name="success" type="redirectAction">SLA</result>
+        </action>
+		        
+        <action name="slaList" method="slaList" class="com.supportdesk.action.SLAAction">
+        	<result type="json">
+        	<param name="ignoreHierarchy">false</param>
+        	<param name="excludeProperties">slaService</param> 
+        	</result>
+        </action>
+	</package>
+		
+</struts>
