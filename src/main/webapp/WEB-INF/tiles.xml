@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+	<!-- Base Layouts -->
+
+	<!-- User defined layouts begins -->
+	
+	<!-- User defined publicBaseLayout begins -->
+	<definition name="publicBaseLayout" template="/pages/publicBaseLayout.jsp">
+	</definition>
+	
+	<definition name="restrictedLayout" template="/pages/restrictedLayout.jsp">
+	</definition>
+	<!-- User defined popupBaseLayout ends -->
+
+	<!-- User defined layouts ends -->
+
+	<!-- END Base Layouts -->
+
+	<!-- Top Level Pages -->
+
+	<!-- ErrorPage tiles definition begins -->
+	<definition name="tiles.errorPage" extends="publicBaseLayout">
+		<put-attribute name="title" value="Error" />
+		<put-attribute name="body" value="/pages/errorPage.jsp" />
+	</definition>
+	<!-- ErrorPage tiles definition ends -->
+	
+	<!-- changepassword tiles definition begins -->
+	<definition name="tiles.changepassword" extends="publicBaseLayout">
+		<put-attribute name="title" value=" Change Passowrd" />
+		<put-attribute name="body" value="/pages/changePassword.jsp" />
+	</definition>
+
+	<!-- login tiles definition begins -->
+	<definition name="tiles.home" extends="publicBaseLayout">
+		<put-attribute name="title" value="Home Page" />
+		<put-attribute name="body" value="/pages/dashboard.jsp" />
+	</definition>
+	
+	<definition name="tiles.incident" extends="publicBaseLayout">
+		<put-attribute name="title" value="Incident" />
+		<put-attribute name="body" value="/pages/incident.jsp" />
+	</definition>
+	
+	<definition name="tiles.workOrder" extends="publicBaseLayout">
+		<put-attribute name="title" value="Work Orders" />
+		<put-attribute name="body" value="/pages/workOrder.jsp" />
+	</definition>
+	
+	<definition name="tiles.changeRequest" extends="publicBaseLayout">
+		<put-attribute name="title" value="Change Requests" />
+		<put-attribute name="body" value="/pages/changeRequest.jsp" />
+	</definition>
+	
+	<definition name="tiles.task" extends="publicBaseLayout">
+		<put-attribute name="title" value="Tasks" />
+		<put-attribute name="body" value="/pages/task.jsp" />
+	</definition>
+	
+	<definition name="tiles.kbase" extends="publicBaseLayout">
+		<put-attribute name="title" value="Knowledge Base" />
+		<put-attribute name="body" value="/pages/knowledgeBase.jsp" />
+	</definition>
+	
+	<definition name="tiles.meetup" extends="publicBaseLayout">
+		<put-attribute name="title" value="MeetUp" />
+		<put-attribute name="body" value="/pages/meetup.jsp" />
+	</definition>
+	
+	<!-- login tiles definition begins -->
+	<definition name="tiles.admin" extends="restrictedLayout">
+		<put-attribute name="title" value="Administration" />
+		<put-attribute name="body" value="/pages/admin.jsp" />
+	</definition>
+	
+	<definition name="tiles.user" extends="restrictedLayout">
+		<put-attribute name="title" value="Manage User" />
+		<put-attribute name="body" value="/pages/user.jsp" />
+	</definition>
+	
+	<definition name="tiles.application" extends="restrictedLayout">
+		<put-attribute name="title" value="Supported Application" />
+		<put-attribute name="body" value="/pages/application.jsp" />
+	</definition>
+	
+	<definition name="tiles.queue" extends="restrictedLayout">
+		<put-attribute name="title" value="Manage Application Queues" />
+		<put-attribute name="body" value="/pages/queue.jsp" />
+	</definition>
+	
+	<definition name="tiles.classType" extends="restrictedLayout">
+		<put-attribute name="title" value="Manage Application Class Type" />
+		<put-attribute name="body" value="/pages/classType.jsp" />
+	</definition>
+	
+	<definition name="tiles.userQueue" extends="restrictedLayout">
+		<put-attribute name="title" value="Manage User Queue" />
+		<put-attribute name="body" value="/pages/userQueue.jsp" />
+	</definition>
+	
+	<definition name="tiles.sla" extends="restrictedLayout">
+		<put-attribute name="title" value="Manage SLA" />
+		<put-attribute name="body" value="/pages/sla.jsp" />
+	</definition>
+
+</tiles-definitions>
