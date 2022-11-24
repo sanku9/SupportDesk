@@ -19,7 +19,7 @@
 		<springsecurity.version>4.0.1.RELEASE</springsecurity.version>
 
 		<!-- Hibernate / JPA -->
-		<hibernate.version>4.3.5.Final</hibernate.version>
+		<hibernate.version>5.3.20.Final</hibernate.version>
 
 		<!-- Logging -->
 		<logback.version>1.0.13</logback.version>
